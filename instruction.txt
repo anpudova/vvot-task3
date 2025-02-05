@@ -1,0 +1,25 @@
+1. Запускаем файл terraform
+terraform apply
+cd
+
+2. Добавляем файлы в созданную ВМ
+scp -i ./.ssh/id_rsa -r <путь к nextcloud.yml> ubuntu@<ip>:/home/ubuntu/
+scp -i ./.ssh/id_rsa -r <путь к secrets.yml> ubuntu@<ip>:/home/ubuntu/
+scp -i ./.ssh/id_rsa -r <путь к inventory.ini> ubuntu@<ip>:/home/ubuntu/
+
+3. Подключаемся к созданной ВМ
+ssh -i ./.ssh/id_rsa ubuntu@<ip>
+
+4. Устанавливаем ansible на созданной ВМ
+sudo apt install ansible
+
+5. Устанавливаем пароль пользователю
+sudo mysql -u root -p
+Далее 
+ALTER USER 'root'@'localhost' IDENTIFIED BY <пароль>;
+FLUSH PRIVILEGES;
+
+6. Запускем на ВМ
+ansible-playbook -i inventory.ini nextcloud.yml
+
+
